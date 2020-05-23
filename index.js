@@ -48,7 +48,7 @@ chat.on('connection', socket => {
 	});
 
 	socket.on('message', message => {
-		chat.to(message.dialogId).emit('message', message);
+		socket.to(message.dialogId).emit('message', message);
 	});
 
 });
