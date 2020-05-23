@@ -37,6 +37,18 @@ start_app = async () => {
 
 start_app();
 
-io.on('connection', (socket) => {
-  console.log('New WS connection');
+const chat = io.of('chat-namespace');
+
+chat.on('connection', socket => {
+	console.log('New socket connected to chat');
+
+	socket.on('join-dialog', dialogId => {
+		console.log('New join to dialog', dialogId);
+		socket.join(dialogId);
+	});
+
+	socket.on('message', message => {
+		chat.to(message.dialogId).emit('message', message);
+	});
+
 });
